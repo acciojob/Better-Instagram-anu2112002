@@ -1,4 +1,3 @@
-//your code here
 document.addEventListener("DOMContentLoaded", () => {
     const images = document.querySelectorAll(".image");
     let draggedItem = null;
@@ -6,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     images.forEach(image => {
         image.addEventListener("dragstart", (e) => {
             draggedItem = e.target;
+            e.dataTransfer.setData("text/plain", e.target.id);  // Set data transfer
             e.target.classList.add("selected");
         });
 
@@ -15,8 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         image.addEventListener("drop", (e) => {
             e.preventDefault();
+            const droppedItemId = e.dataTransfer.getData("text/plain");
+            const droppedItem = document.getElementById(droppedItemId);
             if (draggedItem && draggedItem !== e.target) {
-                swapImages(draggedItem, e.target);
+                swapImages(droppedItem, e.target);
             }
             draggedItem.classList.remove("selected");
             draggedItem = null;
